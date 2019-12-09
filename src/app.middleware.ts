@@ -9,7 +9,7 @@ import { UserEntity } from './entity/User.entity';
 class AppMiddleware implements NestMiddleware {
   use(@Req() req: Request, res: Response, next: () => void) {
     res.setHeader('Access-Control-Allow-Origin', req.hostname)
-    LoginModel.currentUser = LoginModel.loginMap[Util.parseCookie(req.headers.cookie)?.token]
+    LoginModel.currentUser = LoginModel.loginMap[req.cookies?.token]
     if (req.originalUrl.startsWith('/login/')) {
       next()
     } else {
@@ -19,7 +19,7 @@ class AppMiddleware implements NestMiddleware {
 
   loginInterceptor(req: Request, res: Response, next) {
     let result = new ResultModel() 
-    if (LoginModel.isContain(Util.parseCookie(req.headers.cookie)?.token)) {
+    if (LoginModel.isContain(req.cookies?.token)) {
       next()
     } else {
       result.setCode(ResultState.conditionError)

@@ -2,18 +2,6 @@
 
 export class Util {
 
-  static parseCookie(cookie:string):Record<string,string> {
-    let obj = {}
-    try {
-      let arr = cookie.split(';')
-      for(let i of arr) {
-        obj[i.split('=')[0]] = i.split('=')[1]
-      }
-    } finally {
-      return obj
-    }   
-  }
-
   static judgePassword(password:string):boolean {
           //获得密码       
           if(!/^(?!\d+$)(?![a-zA-Z]+$)\w{8,20}$/.test(password)||/(\w)\1{3}/.test(password)) {

@@ -38,7 +38,7 @@ export class LoginService {
       return result
     }
 
-    let cookieToken = Util.parseCookie(req.headers.cookie)?.token
+    let cookieToken = req.cookies?.token
     if (LoginModel.isContain(cookieToken) && LoginModel.currentUser.userName === body.userName) {
       result.setCode(ResultState.conditionError)
       result.setMsg('该用户已经登录，请勿重复登录')
@@ -62,7 +62,7 @@ export class LoginService {
 
   logout(req: Request) {
     let result = new ResultModel()
-    let cookie = Util.parseCookie(req.headers.cookie)
+    let cookie = req.cookies
     if (!Reflect.has(LoginModel.loginMap, cookie.token)) {
       result.setCode(ResultState.parameterError)
       result.setMsg('用户尚未登录，请重新登录')

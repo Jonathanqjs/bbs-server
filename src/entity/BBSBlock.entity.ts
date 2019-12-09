@@ -14,19 +14,21 @@ export class BBSBlockEntity {
   @Column({unique:true})
   name:string
 
-  @Column()
+  @Column({name:'master_id'})
   masterId:string
 
   @Column()
   profile:string
 
   @Column({
+    name:'topic_count',
     type:'int',
     default:0
   })
   topicCount:number
 
   @Column({
+    name:'click_count',
     type:'int',
     default: 0
   })

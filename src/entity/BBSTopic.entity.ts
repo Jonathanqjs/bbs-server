@@ -13,38 +13,53 @@ export class BBSTopicEntity {
   })
   id:string
 
-  @Column()
-  block:string
 
+  @Column({name:'block_id'})
+  blockId:string
 
-  @Column()
-  master:string
+  
+  @Column({name:'master_id'})
+  masterId:string
 
   @Column({
+    name:'reply_count',
     type:'int',
     default:0
   })
   replyCount:number
 
-  @Column('varchar')
+  @Column({type:'varchar',zerofill:false})
   topic:string
 
-  @Column('varchar')
+  @Column({type:'varchar',zerofill:false})
   content:string
 
-  @CreateDateColumn({type:'datetime'})
+  @CreateDateColumn({
+    name:'create_time',
+    type:'datetime'})
   createTime:string
 
-  @Column('int')
+  @Column({
+    name:'click_count',
+    type:'int',
+    default:0
+  })
   clickCount:number
 
-  @Column('char')
+  @Column({
+    type:'varchar',
+    default:'01'
+  })
   flag:'01'|'02'|'03'|'04'
 
-  @Column()
+  @Column({
+    name:'last_reply_user',
+    nullable:true
+  })
   lastReplyUser:string
 
-  @UpdateDateColumn({
+  @Column({
+    name:'last_reply_time',
     type:'datetime',
     nullable: true
   })

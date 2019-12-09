@@ -14,12 +14,12 @@ export class PostTopicController {
 
   @Post('createTopic')
   async createBlock(@Body() req) {
-    // return await this.postBlockService.createBlock(req)
+    return await this.postTopicService.createTopic(req)
   }
 
-  @Post('updateBlock')
+  @Post('findTopic')
   async updateBlock(@Body() req) {
-    // return await this.postBlockService.updateBlock(req)
+    return await this.postTopicService.findTopic(req)
   }
 
 }
