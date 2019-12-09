@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { LoginModel } from "./model/LoginModel";
 import { ResultModel } from "./model/ResultModel";
 import { Util } from "./util/util";
-import { UserModel } from "./model/UserModel.entity";
+import { UserEntity } from './entity/User.entity';
 
 @Injectable()
 class AppMiddleware implements NestMiddleware {

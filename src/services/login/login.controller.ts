@@ -20,7 +20,12 @@ export class LoginController {
   }
 
   @Post('register')
-  async register(@Body() req) {
+  async register(@Body() req:RegisterRequest) {
     return await this.loginService.register(req)
+  }
+
+  @Post('changePwd')
+  async changePwd(@Body() req:changePwdRequest) {
+    return await this.loginService.changPwd(req)
   }
 }

@@ -1,11 +1,11 @@
 import { Req } from "@nestjs/common"
 import {Request} from 'express'
 import { Util } from "src/util/util"
-import { UserModel } from "./UserModel.entity"
+import { UserEntity } from '../entity/User.entity'
 
 export class LoginModel {
-  static loginMap:{[token:string]:UserModel} = {}
-  static currentUser:UserModel
+  static loginMap:{[token:string]:UserEntity} = {}
+  static currentUser:UserEntity
   constructor() {
 
   }

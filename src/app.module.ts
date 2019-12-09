@@ -6,20 +6,12 @@ import { LoginModule } from './services/login/login.module';
 import AppMiddleware from './app.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { UserModel } from './model/UserModel.entity';
+import { UserEntity } from './entity/User.entity';
+import { typeOrmConfig } from './config/config';
 import { PostModule } from './services/post/post.module';
 
 @Module({
-  imports: [LoginModule,TypeOrmModule.forRoot({
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
-    "password": "13185",
-    "database": "mybbs",
-    "entities": [UserModel],
-    "synchronize": true
-  }), PostModule],
+  imports: [LoginModule,TypeOrmModule.forRoot(typeOrmConfig), PostModule],
   controllers: [AppController],
   providers: [AppService],
 })

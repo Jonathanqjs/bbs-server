@@ -28,13 +28,14 @@ export class Util {
           ]
           for(let item of judgeArr) {
             let v = password.toLowerCase()
-            for(let i = 0;i<=v.length - 4;i++) {
+            for(let i = 0;i<=v.length - 5;i++) {
               if(
               v.includes(item.substr(i, 4)) || 
               v.split('').reverse().join('').includes(item.substr(i, 4))
               )
               {
                 console.log(v)
+                console.log(i)
                 console.log(item.substr(i, 4))
                 console.log(v.includes(item.substr(i, 4)))
                 console.log(v.split('').reverse().join('').includes(item.substr(i, 4)))
