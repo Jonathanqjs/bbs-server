@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, OneToOne, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, OneToOne, UpdateDateColumn, JoinColumn } from "typeorm";
 import { BBSBlockEntity } from "./BBSBlock.entity";
 import { UserEntity } from "./User.entity";
 
@@ -8,14 +8,17 @@ import { UserEntity } from "./User.entity";
 })
 export class BBSTopicEntity {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    zerofill:true
+  })
   id:string
 
-  @ManyToOne(type=>BBSBlockEntity, block=>block.id)
-  block:BBSBlockEntity
+  @Column()
+  block:string
 
-  @ManyToOne(type=>UserEntity,user=>user.id)
-  master:UserEntity
+
+  @Column()
+  master:string
 
   @Column({
     type:'int',
@@ -38,8 +41,8 @@ export class BBSTopicEntity {
   @Column('char')
   flag:'01'|'02'|'03'|'04'
 
-  @ManyToOne(type=>UserEntity,user=>user.id)
-  lastReplyUser:UserEntity
+  @Column()
+  lastReplyUser:string
 
   @UpdateDateColumn({
     type:'datetime',

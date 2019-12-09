@@ -1,24 +1,24 @@
 
 class PageModel<T> {
-  private row: number
+  private pageSize: number
   private total: number
   private data: Array<T>
   private pagingData: Array<Array<T>>
-  constructor({ data, row }: { data: Array<T>, row: number }) {
+  constructor({ data, pageSize, total }: { data: Array<T>, pageSize: number, total?: number }) {
     this.data = data
-    this.row = row
-    this.total = data.length
-    for (let i = 0; i < this.data.length; i += this.row) {
-      this.pagingData.push(this.data.slice(i, i + this.row))
+    this.pageSize = pageSize
+    this.total = total ?? data.length
+    for (let i = 0; i < this.total; i += this.pageSize) {
+      this.pagingData.push(this.data.slice(i, i + this.pageSize))
     }
 
   }
 
-  getData(page: number) {   
+  getData(page: number) {
     return {
       total: this.total,
-      currentPage:page,
-      data: this.pagingData[page-1]??[]
+      currentPage: page,
+      data: this.pagingData[page - 1] ?? []
     }
   }
 }

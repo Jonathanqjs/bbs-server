@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, PrimaryColumn, Column, OneToOne, ManyToOne, Entity } from "typeorm";
+import { PrimaryGeneratedColumn, PrimaryColumn, Column, OneToOne, ManyToOne, Entity, JoinColumn } from "typeorm";
 import { UserEntity } from "./User.entity";
 
 @Entity({
@@ -6,22 +6,30 @@ import { UserEntity } from "./User.entity";
 })
 export class BBSBlockEntity {
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({
+    zerofill:true
+  })
   id:string
 
   @Column({unique:true})
   name:string
 
-  @ManyToOne(type=>UserEntity,user=>user.id)
-  master:UserEntity
+  @Column()
+  masterId:string
 
   @Column()
   profile:string
 
-  @Column('int')
+  @Column({
+    type:'int',
+    default:0
+  })
   topicCount:number
 
-  @Column('int')
+  @Column({
+    type:'int',
+    default: 0
+  })
   clickCount:number
 
   constructor(partial: Partial<UserEntity>) {

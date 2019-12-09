@@ -1,7 +1,7 @@
 import { NestMiddleware, Injectable, Req, Res, Next } from "@nestjs/common";
 import { Request, Response } from 'express'
 import { LoginModel } from "./model/LoginModel";
-import { ResultModel } from "./model/ResultModel";
+import { ResultModel, ResultState } from "./model/ResultModel";
 import { Util } from "./util/util";
 import { UserEntity } from './entity/User.entity';
 
@@ -22,7 +22,7 @@ class AppMiddleware implements NestMiddleware {
     if (LoginModel.isContain(Util.parseCookie(req.headers.cookie)?.token)) {
       next()
     } else {
-      result.setCode(201)
+      result.setCode(ResultState.conditionError)
       result.setMsg('登录已超时')
       res.send(result)
     }

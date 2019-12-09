@@ -6,7 +6,7 @@ import { Util } from 'src/util/util';
 import { UserEntity } from 'src/entity/User.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import jsencrypt from 'jsencrypt'
+const uuidv1 = require('uuid/v1');
 
 @Injectable()
 export class LoginService {
@@ -44,8 +44,11 @@ export class LoginService {
       result.setMsg('该用户已经登录，请勿重复登录')
       return result
     } else {
-      let token = new Date().getTime()
-      LoginModel.loginMap[token] = user
+      let token = uuidv1()
+      LoginModel.loginMap = {
+        ...LoginModel.loginMap,
+        [token]: user
+      }
       setTimeout(() => {
         Reflect.deleteProperty(LoginModel.loginMap, token)
       }, 1000 * 60 * 30)

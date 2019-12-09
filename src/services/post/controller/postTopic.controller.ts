@@ -2,23 +2,24 @@ import { Controller, Get, Body, Post } from '@nestjs/common';
 import { PostBlockService } from '../services/postBlock.service';
 import { LoginModel } from 'src/model/LoginModel';
 import { Authority } from 'src/entity/User.entity';
+import { PostTopicService } from '../services/postTopic.service';
 
-@Controller('postBlock')
-export class PostBlockController {
+@Controller('postTopic')
+export class PostTopicController {
   constructor(
-    private readonly postBlockService: PostBlockService) 
+    private readonly postTopicService: PostTopicService) 
     {
     
   }
 
-  @Post('createBlock')
+  @Post('createTopic')
   async createBlock(@Body() req) {
-    return await this.postBlockService.createBlock(req)
+    // return await this.postBlockService.createBlock(req)
   }
 
   @Post('updateBlock')
   async updateBlock(@Body() req) {
-    return await this.postBlockService.updateBlock(req)
+    // return await this.postBlockService.updateBlock(req)
   }
 
 }
