@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinTable, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinTable, PrimaryColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { UniqueMetadata } from 'typeorm/metadata/UniqueMetadata';
 
@@ -11,7 +11,7 @@ export enum Authority {
 @Entity({
   name:'account'
 })
-export class UserEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn({
     zerofill:true
   })
@@ -24,8 +24,11 @@ export class UserEntity {
   @Column()
   password:string
 
-  @CreateDateColumn({type:'datetime'})
-  createDate:Date
+  @CreateDateColumn({
+    length:0,
+    type:'datetime'
+  })
+  createDate:string
 
   @Column({type:'date',nullable:true})
   birthday:Date
@@ -43,6 +46,7 @@ export class UserEntity {
   authority:string
 
   constructor(partial: Partial<UserEntity>) {
+    super()
     Object.assign(this, partial);
   }
 }

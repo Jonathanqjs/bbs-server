@@ -1,17 +1,20 @@
-import { PrimaryGeneratedColumn, PrimaryColumn, Column, OneToOne, ManyToOne, Entity, JoinColumn } from "typeorm";
+import { PrimaryGeneratedColumn, PrimaryColumn, Column, OneToOne, ManyToOne, Entity, JoinColumn, BaseEntity } from "typeorm";
 import { UserEntity } from "./User.entity";
 
 @Entity({
-  name:'bbc_block'
+  name:'bbs_block'
 })
-export class BBSBlockEntity {
+export class BBSBlockEntity extends BaseEntity {
 
   @PrimaryGeneratedColumn({
+    name:'block_id',
     zerofill:true
   })
   id:string
 
-  @Column({unique:true})
+  @Column({
+    name:'block_name',
+    unique:true})
   name:string
 
   @Column({name:'master_id'})
@@ -35,6 +38,8 @@ export class BBSBlockEntity {
   clickCount:number
 
   constructor(partial: Partial<UserEntity>) {
+    super()
     Object.assign(this, partial);
   }
 }
+

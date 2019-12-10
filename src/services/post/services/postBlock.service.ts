@@ -6,14 +6,15 @@ import { BBSTopicEntity } from 'src/entity/BBSTopic.entity';
 import { ResultModel, ResultState } from 'src/model/ResultModel';
 import { LoginModel } from 'src/model/LoginModel';
 import { Authority } from 'src/entity/User.entity';
+import { CustomRepository } from 'src/repository/custom';
 
 @Injectable()
 export class PostBlockService {
   constructor(
     @InjectRepository(BBSBlockEntity)
-    private readonly BBSBlockRepository: Repository<BBSBlockEntity>,
+    private readonly BBSBlockRepository: CustomRepository<BBSBlockEntity>,
     @InjectRepository(BBSTopicEntity)
-    private readonly BBSTopicRepository: Repository<BBSTopicEntity>) {
+    private readonly BBSTopicRepository: CustomRepository<BBSTopicEntity>) {
   }
 
   async createBlock(req: CreateBlockRequest) {
@@ -49,6 +50,7 @@ export class PostBlockService {
       return result
     }
   }
+
 
   async updateBlock(req: UpdateBlockRequest) {
     let result = new ResultModel()

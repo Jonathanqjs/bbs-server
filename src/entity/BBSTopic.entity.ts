@@ -1,12 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, OneToOne, UpdateDateColumn, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn, OneToOne, UpdateDateColumn, JoinColumn, BaseEntity } from "typeorm";
 import { BBSBlockEntity } from "./BBSBlock.entity";
 import { UserEntity } from "./User.entity";
+import { Util } from "src/util/util";
 
 
 @Entity({
   name:'bbs_topic'
 })
-export class BBSTopicEntity {
+export class BBSTopicEntity extends BaseEntity {
 
   @PrimaryGeneratedColumn({
     zerofill:true
@@ -64,5 +65,4 @@ export class BBSTopicEntity {
     nullable: true
   })
   lastReplyTime:string
-
 }
