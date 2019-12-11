@@ -15,11 +15,11 @@ export class PageModel<T> {
 
   }
 
-  getData(page: number) {
+  getData(page: number)  {
     return {
       total: this.total,
       currentPage: page,
-      data: this.pagingData[page - 1] ?? []
+      list: this.pagingData[page - 1] ?? []
     }
   }
 }
