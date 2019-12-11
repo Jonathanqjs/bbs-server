@@ -12,13 +12,18 @@ import { CustomRepository } from 'src/repository/custom';
 export class PostBlockService {
   constructor(
     @InjectRepository(BBSBlockEntity)
-    private readonly BBSBlockRepository: CustomRepository<BBSBlockEntity>,
+    private readonly BBSBlockRepository: Repository<BBSBlockEntity>,
     @InjectRepository(BBSTopicEntity)
-    private readonly BBSTopicRepository: CustomRepository<BBSTopicEntity>) {
+    private readonly BBSTopicRepository: Repository<BBSTopicEntity>) {
   }
 
   async createBlock(req: CreateBlockRequest) {
     let result = new ResultModel()
+    if(!LoginModel.isLoggedIn()) {
+      result.setCode(ResultState.conditionError)
+      result.setMsg('请先登录')
+      return result
+    }
     if (LoginModel.currentUser.authority != Authority.管理员) {
       result.setCode(ResultState.conditionError)
       result.setMsg('权限不足')
@@ -54,6 +59,11 @@ export class PostBlockService {
 
   async updateBlock(req: UpdateBlockRequest) {
     let result = new ResultModel()
+    if(!LoginModel.isLoggedIn()) {
+      result.setCode(ResultState.conditionError)
+      result.setMsg('请先登录')
+      return result
+    }
     let bbsBlock = await this.BBSBlockRepository.findOne({
       id: req.id
     })

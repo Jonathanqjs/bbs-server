@@ -19,6 +19,11 @@ export class PostTopicService {
 
   public async createTopic(req: CreateTopicRequest) {
     let result = new ResultModel()
+    if(!LoginModel.isLoggedIn()) {
+      result.setCode(ResultState.conditionError)
+      result.setMsg('请先登录')
+      return result
+    }
     if (!req.topic) {
       result.setCode(ResultState.parameterError)
       result.setMsg('请输入标题')
@@ -66,7 +71,11 @@ export class PostTopicService {
         obj.blockId = req.blockId
       }
       let list = await this.BBSTopicRepository.query(
-        `SELECT a.*, b.block_name FROM bbs_topic a left join bbs_block b on a.block_id=b.block_id ${req.blockId ? 'where a.block_id =' + req.blockId : ''}`
+        `SELECT a.*, b.block_name, c.user_name FROM bbs_topic a 
+        left join bbs_block b on a.block_id=b.block_id 
+        left join bbs_account c on a.master_id=c.user_id 
+        ${req.blockId ? 'where a.block_id =' + req.blockId : ''} 
+        order by a.create_time desc`
         )
       var pageModel = new PageModel<BBSTopicEntity>({
         data: list,

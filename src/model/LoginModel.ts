@@ -10,6 +10,13 @@ export class LoginModel {
 
   }
 
+  /**
+   * 是否已经登录
+   */
+  static isLoggedIn() {
+    return typeof this.currentUser !== 'undefined'
+  }
+
   static isContain(token: string): boolean {
     return Reflect.has(this.loginMap,token)
   }

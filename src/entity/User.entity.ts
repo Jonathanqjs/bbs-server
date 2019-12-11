@@ -9,15 +9,16 @@ export enum Authority {
 }
 
 @Entity({
-  name:'account'
+  name:'bbs_account'
 })
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn({
-    zerofill:true
+    zerofill:true,
+    name:'user_id'
   })
   id: string
 
-  @Column({unique:true})
+  @Column({unique:true,name:'user_name'})
   userName:string
   
   @Exclude()
@@ -25,6 +26,7 @@ export class UserEntity extends BaseEntity {
   password:string
 
   @CreateDateColumn({
+    name:'create_date',
     length:0,
     type:'datetime'
   })
