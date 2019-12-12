@@ -46,11 +46,16 @@ export class LoginService {
     } else {
       let token = uuidv1()
       delete user.password
+      for(let key in LoginModel.loginMap) {
+        if(LoginModel.loginMap[key].userName == body.userName) {
+          Reflect.deleteProperty(LoginModel.loginMap,key)
+        }
+      }
       LoginModel.loginMap = {
         ...LoginModel.loginMap,
         [token]: user
       }
-      res.cookie('token', token, { expires: new Date(Date.now() + 900000), httpOnly: true })
+      res.cookie('token', token, { expires: new Date(Date.now() + 1000*60*60*24*7), httpOnly: true })
       result.setCode(ResultState.success)
       result.setMsg('登录成功')
       result.setData(body)
@@ -145,7 +150,7 @@ export class LoginService {
     let result = new ResultModel()
     if(!LoginModel.isLoggedIn()) {
       result.setCode(ResultState.conditionError)
-      result.setMsg('用户尚未登录')
+      result.setMsg('用户尚未登录，请重新登录')
       return result
     } 
 
