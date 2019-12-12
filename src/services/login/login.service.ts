@@ -6,6 +6,7 @@ import { Util } from 'src/util/util';
 import { UserEntity } from 'src/entity/User.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+
 const uuidv1 = require('uuid/v1');
 
 @Injectable()
@@ -32,26 +33,23 @@ export class LoginService {
     let user = await this.userRepository.findOne({
       userName: body.userName
     })
-    if (typeof user == 'undefined' || user.password != body.password) {
+    if (typeof user == 'undefined' ||Util.AESDecrypt(user.password) != body.password) {
       result.setCode(ResultState.parameterError)
       result.setMsg('用户名或密码错误')
       return result
     }
 
-    let cookieToken = req.cookies?.token
-    if (LoginModel.isContain(cookieToken) && LoginModel.currentUser.userName === body.userName) {
+    if (LoginModel.isContain(req.cookies?.token)) {
       result.setCode(ResultState.conditionError)
       result.setMsg('该用户已经登录，请勿重复登录')
       return result
     } else {
       let token = uuidv1()
+      delete user.password
       LoginModel.loginMap = {
         ...LoginModel.loginMap,
         [token]: user
       }
-      setTimeout(() => {
-        Reflect.deleteProperty(LoginModel.loginMap, token)
-      }, 1000 * 60 * 30)
       res.cookie('token', token, { expires: new Date(Date.now() + 900000), httpOnly: true })
       result.setCode(ResultState.success)
       result.setMsg('登录成功')
@@ -59,6 +57,8 @@ export class LoginService {
       return result
     }
   }
+
+  
 
   logout(req: Request) {
     let result = new ResultModel()
@@ -91,7 +91,7 @@ export class LoginService {
       await this.userRepository.insert(
         {
           userName: req.userName,
-          password: req.password,
+          password:Util.AESEncrypt(req.password),
         }
       )
       return result
@@ -104,6 +104,13 @@ export class LoginService {
 
   async changPwd(req:changePwdRequest) {
     let result = new ResultModel()
+
+    if (!LoginModel.currentUserInfo) {
+      result.setCode(ResultState.parameterError)
+      result.setMsg('用户尚未登录，请重新登录')
+      return result
+    }
+
     let user = await this.userRepository.findOne({
       userName: req.userName
     })
@@ -113,8 +120,7 @@ export class LoginService {
       result.setMsg('没有该用户')
       return result
     }
-
-    if (user.password != req.oldPassword) {
+    if (Util.AESDecrypt(user.password) != req.oldPassword) {
       result.setCode(ResultState.parameterError)
       result.setMsg('用户密码错误')
       return result
@@ -126,12 +132,25 @@ export class LoginService {
       return result
     }
     try {
-      this.userRepository.update({
+      await this.userRepository.update({
         userName: req.userName
-      }, { password: req.newPassword })
+      }, { password: Util.AESEncrypt(req.newPassword) })
     }
     finally {
       return result
     }
+  }
+
+  async queryInfo(req:Request) {
+    let result = new ResultModel()
+    if(!LoginModel.isLoggedIn()) {
+      result.setCode(ResultState.conditionError)
+      result.setMsg('用户尚未登录')
+      return result
+    } 
+
+    result.setData(LoginModel.currentUserInfo) 
+    return result
+    
   }
 }

@@ -24,7 +24,7 @@ export class PostBlockService {
       result.setMsg('请先登录')
       return result
     }
-    if (LoginModel.currentUser.authority != Authority.管理员) {
+    if (LoginModel.currentUserInfo.authority != Authority.管理员) {
       result.setCode(ResultState.conditionError)
       result.setMsg('权限不足')
       return result
@@ -46,7 +46,7 @@ export class PostBlockService {
     try {
       await this.BBSBlockRepository.insert({
         name: req.blockName,
-        masterId: LoginModel.currentUser.id,
+        masterId: LoginModel.currentUserInfo.id,
         profile: req.blockProfile
       })
     } catch (e) {
@@ -72,9 +72,9 @@ export class PostBlockService {
       result.setMsg('该版块不存在')
       return result
     }
-    console.log(LoginModel.currentUser)
+    console.log(LoginModel.currentUserInfo)
     console.log(bbsBlock)
-    if (LoginModel.currentUser.authority != Authority.管理员 && LoginModel.currentUser.id != bbsBlock.masterId) {
+    if (LoginModel.currentUserInfo.authority != Authority.管理员 && LoginModel.currentUserInfo.id != bbsBlock.masterId) {
       result.setCode(ResultState.conditionError)
       result.setMsg('权限不足')
       return result

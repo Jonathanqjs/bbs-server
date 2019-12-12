@@ -22,7 +22,7 @@ export class PostReplyService {
     
   }
 
-  async createReply(req) {
+  async createReply(req:CreateReplyRequest) {
     let result = new ResultModel()
     if(!LoginModel.isLoggedIn()) {
       result.setCode(ResultState.conditionError)
@@ -44,7 +44,7 @@ export class PostReplyService {
         content:req.content,
         topicId:req.topicId,
         blockId,
-        replyUserId:LoginModel.currentUser.id
+        replyUserId:LoginModel.currentUserInfo.id
       })
     } catch(e) {
       console.error(e)
@@ -53,7 +53,7 @@ export class PostReplyService {
     }
   }
 
-  async findReply(req) {
+  async findReply(req:FindReplayRequest) {
     let result = new ResultModel()
     if(!req.topicId) {
       result.setCode(ResultState.parameterError)

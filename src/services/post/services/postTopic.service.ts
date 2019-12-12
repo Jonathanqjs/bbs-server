@@ -39,7 +39,7 @@ export class PostTopicService {
       await this.BBSTopicRepository.insert({
         topic: req.topic,
         content: req.content,
-        masterId: LoginModel.currentUser.id,
+        masterId: LoginModel.currentUserInfo.id,
         blockId: req.blockId
       })
       let count = await this.BBSTopicRepository.count({

@@ -5,7 +5,7 @@ import { UserEntity } from '../entity/User.entity'
 
 export class LoginModel {
   static loginMap:{[token:string]:UserEntity} = {}
-  static currentUser:UserEntity
+  static currentUserInfo:UserEntity
   constructor() {
 
   }
@@ -14,7 +14,7 @@ export class LoginModel {
    * 是否已经登录
    */
   static isLoggedIn() {
-    return typeof this.currentUser !== 'undefined'
+    return typeof this.currentUserInfo !== 'undefined'
   }
 
   static isContain(token: string): boolean {

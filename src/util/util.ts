@@ -1,3 +1,4 @@
+import { publicKey } from "src/config/config"
 
 
 export class Util {
@@ -47,5 +48,16 @@ export class Util {
     month = month + 1;
     let time = year + "-" + month.toString().padStart(2,'0') + "-" + date.toString().padStart(2,'0') + " " + hour.toString().padStart(2,'0')  + ":" + minu.toString().padStart(2,'0')  + ":" + sec.toString().padStart(2,'0') ;
     return time;
+  }
+
+  static AESDecrypt(text) {
+    let CryptoJS = require("crypto-js");
+    var bytes  = CryptoJS.AES.decrypt(text.toString(), publicKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+  static AESEncrypt(text) {
+    let CryptoJS = require("crypto-js");
+    return CryptoJS.AES.encrypt(text, publicKey).toString();
   }
 }

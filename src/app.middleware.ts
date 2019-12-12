@@ -9,7 +9,7 @@ import { UserEntity } from './entity/User.entity';
 class AppMiddleware implements NestMiddleware {
   use(@Req() req: Request, res: Response, next: () => void) {
     res.setHeader('Access-Control-Allow-Origin', req.hostname)
-    LoginModel.currentUser = LoginModel.loginMap[req.cookies?.token]
+    LoginModel.currentUserInfo = LoginModel.loginMap[req.cookies?.token]
     next()
     // if (req.originalUrl.startsWith('/login/')) {
     //   next()

@@ -1,5 +1,5 @@
-import { Controller, Post, Req, Body, Res } from '@nestjs/common';
-import { Request,Response } from 'express';
+import { Controller, Post, Req, Body, Res, } from '@nestjs/common';
+import { Response,Request } from 'express';
 import { ResultModel } from 'src/model/ResultModel';
 import { LoginService } from './login.service';
 
@@ -28,4 +28,10 @@ export class LoginController {
   async changePwd(@Body() req:changePwdRequest) {
     return await this.loginService.changPwd(req)
   }
+
+  @Post('queryInfo')
+  async queryInfo(@Req() req) {
+    return await this.loginService.queryInfo(req)
+  }
+
 }

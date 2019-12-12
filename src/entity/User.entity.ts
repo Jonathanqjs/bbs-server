@@ -21,8 +21,8 @@ export class UserEntity extends BaseEntity {
   @Column({unique:true,name:'user_name'})
   userName:string
   
-  @Exclude()
-  @Column()
+  @Column(
+  )
   password:string
 
   @CreateDateColumn({
